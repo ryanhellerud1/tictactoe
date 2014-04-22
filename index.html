@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+<script src="script.js"></script>
+
+
+</script>
+<title>tictactoe</title>
+<style>
+.container{
+	width:480px;
+	margin: 0 auto
+}
+.cells{
+	float:left; 
+	border:3px solid black; 
+	width:150px; 
+	height:150px; 
+	background-color:white; 
+	text-align: center;
+	color:black; 
+	padding-top: 0px;
+	font-size:80pt;}
+
+</style>
+</head>
+<body x-ng-app="" x-ng-controller="TictacController">
+<div class="container">
+		<div class="cells" x-ng-click="clicker($index)" x-ng-repeat="b in board track by $index">{{b}}</div>
+		<p x-ng-bind="playNum"></p>
+	</div>
+	
+	<button>New game</button>
+
+</body>
+</html>
