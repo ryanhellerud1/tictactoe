@@ -1,15 +1,16 @@
 function TictacController($scope){
 
-	$scope.board = [null,null,null,null,null,null,null,null,null];
+	$scope.board = [null,null,null,null,null,null,null,null,null]; //game board
 	var currentplayer = 1;
-
+	var playerString = null
 	$scope.clicker = function(cellIndex) {
 		if($scope.board[cellIndex]==null){
-			if (currentplayer == 1) {
+			if (currentplayer == 1){
 				$scope.playNum = "Player 1";
 				$scope.board[cellIndex]= "X";
 				currentplayer++;
 				console.log($scope.board);
+				$scope.playerString= "X "
 				$scope.checkWin();
 			} 
 			else {
@@ -17,7 +18,9 @@ function TictacController($scope){
 				$scope.board[cellIndex]= "O";
 				currentplayer--;
 				console.log($scope.board);
+				$scope.playerString= "O "
 				$scope.checkWin();
+
 			}
 
 		}
@@ -25,7 +28,58 @@ function TictacController($scope){
 
 	}
 
-	$scope.checkWin = function() {
+$scope.gameOver= function(){
+$scope.board = [null,null,null,null,null,null,null,null,null];
+	}
+
+$scope.checkWin= function(){
+
+		for(i = 0; i < 3; ++i)
+		{
+			// Left column
+			if($scope.board[0+i] != null &&
+				$scope.board[0+i]==$scope.board[3+i] &&
+				$scope.board[3+i]== $scope.board[6+i])
+			{
+$scope.gameOver();
+				console.log($scope.playerString+ "win - vertical")
+			}
+			if($scope.board[0+(i*3)] != null &&
+				$scope.board[0+(i*3)]==$scope.board[1+(i*3)] &&
+			  	$scope.board[1+(i*3)]== $scope.board[2+(i*3)])
+			{
+				console.log("win - horizontal");
+			}
+		/*if (scope.board[(i)]!= null &&
+			$scope.board[(i)]== $scope.board[(i+3)] &&
+			$scope.board[(i+4)]== $scope.board[[i+]]
+			) {console.log("win-- diagonal")};*/
+
+		}
+	if ($scope.board[0] != null &&
+		$scope.board[0] == $scope.board[4] &&
+		$scope.board[4] == $scope.board[8])
+	{
+		console.log("WIN - diagonal")
+	};
+
+	if ($scope.board[2] != null &&
+		$scope.board[2] == $scope.board[4] &&
+		$scope.board[4] == $scope.board[6])
+	{
+		console.log("WIN - diagonal")
+	};
+	}
+	
+}
+	
+
+
+
+
+
+
+/*$scope.checkWin = function() {
 		if($scope.board[0]==$scope.board[1] && $scope.board[1]== $scope.board[2]){
 			console.log("win")
 		}
@@ -51,15 +105,7 @@ function TictacController($scope){
 			console.log("win")
 		}
 
-	}
-}
-
-
-
-
-
-
-
+	}*/
 
 /*window.onload = function(){
 
