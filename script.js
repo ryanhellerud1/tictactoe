@@ -1,39 +1,44 @@
 function TictacController($scope){
-
+	$scope.gameDone= 0;
 	$scope.board = [null,null,null,null,null,null,null,null,null]; //game board
-	var currentplayer = 1;
-	var playerString = null
-	$scope.clicker = function(cellIndex) {
-		if($scope.board[cellIndex]==null){
-			if (currentplayer == 1){
-				$scope.playNum = "Player 1";
+	$scope.filled = false // for tie game
+	var currentplayer = 1; // start on player 1
+	var playerString = null; //will display X for player 1 O for player 2
+	$scope.winMsg= "";
+	$scope.fileName="dogbitescar.gif"
+	$scope.playNum= "Player 1 to start! Place X";
+	$scope.clicker = function(cellIndex){ //clickability angular function
+		if($scope.board[cellIndex]==null && $scope.gameDone==0){ //cant click on pre-occupied cells
+			if (currentplayer == 1){ //do for player 1
+				$scope.playNum = "Player 2's move next, place O";
 				$scope.board[cellIndex]= "X";
+				$scope.playerString= "X ";
+				$scope.checkWin();
 				currentplayer++;
-				console.log($scope.board);
-				$scope.playerString= "X "
-				$scope.checkWin();
 			} 
-			else {
-				$scope.playNum = "Player 2";
+			else { //do for player 2
+				$scope.playNum = "Player 1's move next, place X";
 				$scope.board[cellIndex]= "O";
-				currentplayer--;
-				console.log($scope.board);
-				$scope.playerString= "O "
+				$scope.playerString= "O ";
 				$scope.checkWin();
-
+				currentplayer--;
 			}
-
 		}
-		
-
 	}
-
-$scope.gameOver= function(){
-$scope.board = [null,null,null,null,null,null,null,null,null];
+$scope.resetGame= function(){ //reset game vars
+	$scope.gameDone= 0;
+	$scope.board = [null,null,null,null,null,null,null,null,null]; //game board
+	currentplayer = 1;
+	var playerString = null
+	$scope.winMsg= "";
+	$scope.playNum= "Player 1 to start! Place X"
+}
+$scope.gameOver= function(){ //games finished
+	$scope.gameDone =1;
+	$scope.playNum= $scope.winMsg;
 	}
 
 $scope.checkWin= function(){
-
 		for(i = 0; i < 3; ++i)
 		{
 			// Left column
@@ -41,110 +46,47 @@ $scope.checkWin= function(){
 				$scope.board[0+i]==$scope.board[3+i] &&
 				$scope.board[3+i]== $scope.board[6+i])
 			{
-$scope.gameOver();
-				console.log($scope.playerString+ "win - vertical")
+				$scope.winMsg= $scope.playerString+ "win - vertical";
+				$scope.gameOver();
 			}
 			if($scope.board[0+(i*3)] != null &&
 				$scope.board[0+(i*3)]==$scope.board[1+(i*3)] &&
 			  	$scope.board[1+(i*3)]== $scope.board[2+(i*3)])
 			{
-				console.log("win - horizontal");
+				
+				$scope.winMsg= $scope.playerString+ "win - horizontal";
+				$scope.gameOver();
 			}
-		/*if (scope.board[(i)]!= null &&
-			$scope.board[(i)]== $scope.board[(i+3)] &&
-			$scope.board[(i+4)]== $scope.board[[i+]]
-			) {console.log("win-- diagonal")};*/
 
 		}
-	if ($scope.board[0] != null &&
+	if ($scope.board[0] != null && //diagonal left to right
 		$scope.board[0] == $scope.board[4] &&
 		$scope.board[4] == $scope.board[8])
 	{
-		console.log("WIN - diagonal")
+
+		$scope.winMsg= $scope.playerString+ "WIN - diagonal"
+		$scope.gameOver();
 	};
 
-	if ($scope.board[2] != null &&
+	if ($scope.board[2] != null && //diagonal right to left
 		$scope.board[2] == $scope.board[4] &&
 		$scope.board[4] == $scope.board[6])
 	{
-		console.log("WIN - diagonal")
+		$scope.winMsg= $scope.playerString+ "WIN - diagonal"
+		$scope.gameOver();
 	};
+
+  $scope.checkFilled= function(){ // define fucntion to check if board is full of moves
+	for (var i = 0; i < $scope.board.length; i++){
+		if ($scope.board[i]==null){
+			return false;
+		};
+	};
+	return true;
+  }
+  	$scope.filled = $scope.checkFilled(); // set var to true or false depending on function result
+	if($scope.filled==true){ //if true its a tie bcuz no one has won yet game board is full
+		$scope.winMsg="Tie Game!!!"; 
+		$scope.gameOver()};
 	}
-	
 }
-	
-
-
-
-
-
-
-/*$scope.checkWin = function() {
-		if($scope.board[0]==$scope.board[1] && $scope.board[1]== $scope.board[2]){
-			console.log("win")
-		}
-		else if($scope.board[3]==$scope.board[4] && $scope.board[4]== $scope.board[3]){
-			console.log("win")
-		}
-		else if($scope.board[6]==$scope.board[7] && $scope.board[7]== $scope.board[6]){
-			console.log("win")
-		}
-		else if($scope.board[0]==$scope.board[3] && $scope.board[3]== $scope.board[7]){
-			console.log("win")
-		}
-		else if($scope.board[0]==$scope.board[1] && $scope.board[1]== $scope.board[2]){
-			console.log("win")
-		}
-		else if($scope.board[0]==$scope.board[1] && $scope.board[1]== $scope.board[2]){
-			console.log("win")
-		}
-		else if($scope.board[0]==$scope.board[1] && $scope.board[1]== $scope.board[2]){
-			console.log("win")
-		}
-		else if($scope.board[0]==$scope.board[1] && $scope.board[1]== $scope.board[2]){
-			console.log("win")
-		}
-
-	}*/
-
-/*window.onload = function(){
-
-	// Find all the rows
-	rows = document.getElementsByClassName("row");
-	// Cycle through each one
-	for(var i = 0; i < rows.length; i++)
-	{
-		// Find all 4 cells on a given row
-		cells = rows[i].getElementsByTagName("div");
-		// Cycle through each of the cells
-		for(var c = 0; c < cells.length; c++)
-		{
-			// Make each of the four cells in this row
-			// respond to a mouseclick event
-			cells[c].onclick = mouseClick;
-		}
-	}
-	
-}
-
-
-
-var trackPlayerTurn=2;
-var playerOne=0;
-var playerTwo=0;
-// When a cell is clicked, this gets called
-	function mouseClick(){
-		
-		console.log("this is " + trackPlayerTurn);
-		if (trackPlayerTurn%2==0){
-		this.innerHTML= "X"
-		}
-		else if(trackPlayerTurn%2==1){
-			this.innerHTML="O"
-		}
-
-		trackPlayerTurn++;
-	
-
-		
-	};*/

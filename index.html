@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
 <script src="script.js"></script>
 
 
@@ -11,6 +11,24 @@
 .container{
 	width:480px;
 	margin: 0 auto
+}
+p{font-size: 34px}
+body{
+	background-color: red;
+}
+.img{
+height: 300px;
+width: 400px;
+position: absolute;
+top: 200px;
+}
+.img img{
+height: 75%;
+width: auto;
+
+}
+.winMsg{
+	font-size: 40px;
 }
 .cells{
 	float:left; 
@@ -26,12 +44,21 @@
 </style>
 </head>
 <body x-ng-app="" x-ng-controller="TictacController">
+<h1 style="text-align: center;">TIC TAC TOE</h1>
+<div class="playerInfo">
+	<p x-ng-bind="playNum"></p>
+</div>
 <div class="container">
 		<div class="cells" x-ng-click="clicker($index)" x-ng-repeat="b in board track by $index">{{b}}</div>
-		<p x-ng-bind="playNum"</p>
+		<!-- <p x-ng-bind="playNum"</p> -->
 	</div>
-	
-	<button>New game</button>
 
+	<button x-ng-click="resetGame()">New game</button>
+	<div class="img" x-ng-show="gameDone==1">
+	<img x-ng-src="{{fileName}}"/>
+	</div>
+	<!-- <div class="winMsg">
+		{{winMsg}}
+	</div> -->
 </body>
 </html>
