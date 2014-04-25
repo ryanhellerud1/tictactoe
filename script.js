@@ -6,6 +6,7 @@ function TictacController($scope){
 	var playerString = null; //will display X for player 1 O for player 2
 	$scope.winMsg= "";
 	$scope.fileName="dogbitescar.gif"
+	gifArray=[]
 	$scope.playNum= "Player 1 to start! Place X";
 	$scope.clicker = function(cellIndex){ //clickability angular function
 		if($scope.board[cellIndex]==null && $scope.gameDone==0){ //cant click on pre-occupied cells
@@ -85,8 +86,9 @@ $scope.checkWin= function(){
 	return true;
   }
   	$scope.filled = $scope.checkFilled(); // set var to true or false depending on function result
-	if($scope.filled==true){ //if true its a tie bcuz no one has won yet game board is full
-		$scope.winMsg="Tie Game!!!"; 
+	if($scope.filled==true && $scope.gameDone != 1){ //if true its a tie bcuz no one has won yet game board is full
+		$scope.winMsg="Cats Game!!!";
+		$scope.fileName="kitten-stroking-his-friend.gif" 
 		$scope.gameOver()};
 	}
 }
